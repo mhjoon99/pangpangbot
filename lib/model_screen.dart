@@ -177,7 +177,7 @@ class _ModelScreenState extends State<ModelScreen> {
   List<double> gyroTotalEnergy = [];
 
   late Interpreter interpreter;
-  bool _modelLoaded = true;
+  bool _modelLoaded = false;
 
   @override
   void initState() {
@@ -214,7 +214,7 @@ class _ModelScreenState extends State<ModelScreen> {
     interpreter = await Interpreter.fromAsset('assets/firstModel.tflite');
   }
 
-  void startSensors() async {
+  Future<void> startSensors() async {
     const duration = const Duration(milliseconds: 100); // 10Hz 단위로 뽑아오기
     Timer.periodic(duration, (timer) {
       if (_modelLoaded) {
@@ -226,11 +226,11 @@ class _ModelScreenState extends State<ModelScreen> {
 
           if (accDataX.length == 50) {
             // 50개 데이터를 수집했을 때 처리
-            // classify();
+            classify();
             // 데이터 초기화
-            // accDataX.clear();
-            // accDataY.clear();
-            // accDataZ.clear();
+            accDataX.clear();
+            accDataY.clear();
+            accDataZ.clear();
           }
         });
 
@@ -255,8 +255,9 @@ class _ModelScreenState extends State<ModelScreen> {
   }
 
   void classify() {
-
+    // 데이터 정제하기
   }
+
   // void _runModel() {
   //   if (_interpreter == null) {
   //     return;
